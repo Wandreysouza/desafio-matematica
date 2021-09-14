@@ -1,21 +1,32 @@
 import time
 
-#Esta função servirá como decorator que irá nos fornecer o tempo decorrido para cada teste!
+
 def timeit(method):
     def timed(*args, **kw):
         ts = time.time()
-        result = method(*args, **kw)
+        kw = method(*args, **kw)
         te = time.time()
         name = ' '.join(kw['name'].split('_'))
 
-        aplicacao = '//    FORMA: {}   //'.format(name.capitalize())
-        i = len(aplicacao)
+        header = 'BENCHMARK'
+        metodo = f'METODO: {name.capitalize()}'
+        t = f'{tt:.3f}s' if (tt := te - ts) > 1 else f'{tt*1000:.3f}ms'
+        tempo = f'TEMPO: {t}'
+        sucessos = f'    - PASSED: {kw["sucess"]}'
+        falhas = f'    - FAILED: {kw["fail"]}'
+        inputs_falhados = f'INPUTS QUE FALHARAM: {", ".join(map(str, kw["fails"]))}' if kw[
+            'fail'] else ''
 
-        print('{:=^{i}}'.format('RELATORIO', i=i))
-        print(aplicacao)
-        print('//    TEMPO: {:<{i}}   //'.format('%.3fms' % (te - ts), i=i-18))
-        print('='*i)
-        
-        print('\n')
-        return result
+        texto = [metodo, tempo, sucessos, falhas] + \
+            ([inputs_falhados] if inputs_falhados else [])
+        i = max(map(len, texto)) + 20
+        f = f'<{i-6}'
+
+        txt = f'{header:=^{i}}\n'
+        txt += '\n'.join(f'||  {t:{f}}' + '||' for t in texto)
+        txt += f'\n{"":=^{i}}'
+
+        print(txt)
+
+        return kw
     return timed
