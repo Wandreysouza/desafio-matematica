@@ -117,5 +117,5 @@ if __name__ == '__main__':
                 [print(f'a: {a}\tb: {b}\tc: {c}') for a, b, c in ternos]
             else:
                 print('Não há ternos para este perímetro')
-        sleep(3)
+        sleep(4)
         system('cls')
