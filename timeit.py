@@ -28,5 +28,5 @@ def timeit(method):
 
         print(txt)
 
-        return kw
+        return kw 
     return timed
