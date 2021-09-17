@@ -13,6 +13,7 @@ Aplicar conceitos de **função** junto das definições de pitágoras para acha
 
 # Definições
 
+Primeiramente para começarmos explicando da solução, precisamos definir e entender termos e leis que serão usadas para definir a solução deste projeto. Sendo eles o que são os ternos pitagóricos e o conceito de complexidade de tempo de um algoritmo.
 ## [Terno Pitagórico](https://pt.wikipedia.org/wiki/Terno_pitag%C3%B3rico)
 
 Em matemática, nomeadamente em [teoria dos números](https://pt.wikipedia.org/wiki/Teoria_dos_n%C3%BAmeros), um **terno pitagórico** é formado por três números naturais _a_, _b_ e _c_ tais que *a*²+*b*²=*c*². O nome vem do teorema de Pitágoras que afirma que se as medidas dos lados de um triângulo rectângulo são números inteiros, então são um terno pitagórico. Se (_a_,_b_,_c_) é um terno pitagórico, então (_ka_,_kb_,_kc_) também é um terno pitagórico, para qualquer número natural k. Um **terno pitagórico primitivo** é um terno pitagórico em que os três números são primos entre si. Os primeiros ternos pitagóricos primitivos são (3, 4, 5), (5, 12, 13), (7, 24, 25), (8, 15, 17), (9, 40, 41), (11, 60, 61), (12, 35, 37), (13, 84, 85), (16, 63, 65), (20, 21, 29)...
