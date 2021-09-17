@@ -20,13 +20,12 @@ def timeit(method):
         texto = [metodo, tempo, sucessos, falhas] + \
             ([inputs_falhados] if inputs_falhados else [])
         i = max(map(len, texto)) + 20
-        f = f'<{i-6}'
 
         txt = f'{header:=^{i}}\n'
-        txt += '\n'.join(f'||  {t:{f}}' + '||' for t in texto)
+        txt += '\n'.join(f'||  {t:<{i-6}}' + '||' for t in texto)
         txt += f'\n{"":=^{i}}'
 
         print(txt)
 
-        return kw 
+        return kw
     return timed
