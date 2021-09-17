@@ -9,11 +9,11 @@ Por exemplo, com N = 1000, há exatamente um terno pitagórico que satisfaça ta
 """
 
 from os import system
-from time import sleep
+from math import sqrt
+
+
 __author__ = 'Emanuel Luis'
 __date__ = "14/09/2021"
-
-from math import sqrt
 
 
 def is_triplet(a: int, b: int, c: int) -> bool:
@@ -22,6 +22,30 @@ def is_triplet(a: int, b: int, c: int) -> bool:
     > a < b < c
     """
     return a**2 + b**2 == c**2 and a < b < c
+
+
+def tempo_cubico(N: int) -> list[list[int]]:
+    """este método usará um algoritmo em tempo O(n³) para resolver o problema proposto.
+
+    :param perimetro: int valor da soma dos lados de um triângulo.
+    :return: list[list] lista com todos os ternos pitagórico que tem como soma o perimetro designado.
+
+    >>> terno_pitagorico_com_soma(1000)
+    [[200, 375, 425]]
+    >>> terno_pitagorico_com_soma(90)
+    [[9, 40, 41], [15, 36, 39]]
+    >>> terno_pitagorico_com_soma(100)
+    []
+    """
+    if N > 500:
+        raise ValueError(
+            'Valor fora dos limites calculáveis para esta função.')
+    return [[a, b, c]  # tempo: O(1)
+            for c in range(1, N//2)  # tempo: O(f(n)) = O(n)
+            for b in range(1, c)  # tempo: O(f(n) * g(n)) = O(n²)
+            for a in range(1, b)  # tempo: O(f(n) * g(n) * h(n)) = O(n³)
+            if is_triplet(a, b, c)
+            and a + b + c == N]
 
 
 def tempo_quadratico(N: int) -> list[list[int]]:
@@ -60,62 +84,43 @@ def tempo_linear(N: int) -> list[list[int]]:
 
     A partir disto conseguimos juntar as equação com alguns dos conceitos do `readme.md`
     """
-    def calc_b(a): return (N ** 2 - 2 * N * a) // (2 * N - 2 * a)
-    def calc_c(a, b): return N - a - b
+    def calcula_tripleto(a):
+        b = (N ** 2 - 2*N*a) // (2*N - 2*a)
+        c = N - a - b
 
-    return [[a, b, c]
+        return [a, b, c] if is_triplet(a, b, c) else None
+
+    return [tripleto
             for a in range(int(sqrt(N)), N//3)
-            if is_triplet(a, b := calc_b(a), c := calc_c(a, b))]
+            if (tripleto := calcula_tripleto(a))]
 
 
-def tempo_cubico(N: int) -> list[list[int]]:
-    """este método usará um algoritmo em tempo O(n³) para resolver o problema proposto.
-
-    :param perimetro: int valor da soma dos lados de um triângulo.
-    :return: list[list] lista com todos os ternos pitagórico que tem como soma o perimetro designado.
-
-    >>> terno_pitagorico_com_soma(1000)
-    [[200, 375, 425]]
-    >>> terno_pitagorico_com_soma(90)
-    [[9, 40, 41], [15, 36, 39]]
-    >>> terno_pitagorico_com_soma(100)
-    []
-    """
-    if N > 500:
-        raise ValueError(
-            'Valor fora dos limites calculáveis para esta função.')
-    return [[a, b, c]  # tempo: O(1)
-            for c in range(1, N)  # tempo: O(f(n)) = O(n)
-            for b in range(1, c)  # tempo: O(f(n) * g(n)) = O(n²)
-            for a in range(1, b)  # tempo: O(f(n) * g(n) * h(n)) = O(n³)
-            if is_triplet(a, b, c)
-            and a + b + c == N]
-
-# tempo_cubico não será inserido devido à demora para rodar o algoritmo 
+# Funções para testagem: tempo_cubico não será inserido por motivos de perfomance.
 funcs = tempo_quadratico, tempo_linear
 
+
+# Criando um programa interativo para quando rodar este script.
 if __name__ == '__main__':
     system('cls')
     texto = '\nDigite o perimetro do triângulo, ou digite 0 para sair do programa: '
     while True:
         try:
-            N = int(input(texto))
-        except Exception:
+            N = float(input(texto))
+            if not N.is_integer() or N < 0:
+                raise ValueError
+        except ValueError:
             system('cls')
+            print('O valor do perímetro deve ser um número INTEIRO e POSITIVO.')
             continue
 
         if N == 0:
             break
 
-        try:
-            ternos = tempo_linear(N)
-        except ValueError:
-            print('O input deve ser um número inteiro positivo ou 0.')
+        system('cls')
+        if ternos := tempo_linear(int(N)):
+            print(f'\nTodos os triângulos possíveis para o perímetro {N}:')
+            [print(f'\ta: {a}\tb: {b}\tc: {c}') for a, b, c in ternos]
         else:
-            if ternos:
-                print(f'\nTodos os triângulos possíveis para o perímetro {N}:')
-                [print(f'a: {a}\tb: {b}\tc: {c}') for a, b, c in ternos]
-            else:
-                print('Não há ternos para este perímetro')
-        sleep(4)
+            print(f'Não há ternos para o perímetro {N}.')
+        input('\nPressione ENTER para continuar... ')
         system('cls')
