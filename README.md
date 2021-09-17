@@ -47,13 +47,13 @@ Este método acrescenta uma varíavel _x_ em _m_ e _n_ de forma em que o par ser
 
 - Com _m_ = 5 e _n_ = 2, façamos que _m1_ = _4x + m_, e _n1_ = _x + n_.
 - Em seguida substituindo na fórmula original teremos:
-  - lado _A = m1² - n²_ = (_4x_ + 5)² - (_x_ + 2)² = **15x² + 36x + 21**
+  - lado _A = m1² - n1²_ = (_4x_ + 5)² - (_x_ + 2)² = **15x² + 36x + 21**
   - lado _B = 2m1n1_ = 2(_4x_ + 5)(_x_ + 2) = **8x² + 26x + 20**
-  - lado _C = m² + n²_ = (_4x_ + 5)² + (_x_ + 2)² = **17x² + 44x + 29**
+  - lado _C = m1² + n1²_ = (_4x_ + 5)² + (_x_ + 2)² = **17x² + 44x + 29**
 
 Teremos a seguinte relação para f(x):
 
-| x   | a   | b   | c   | m   | n   |
+| x   | a   | b   | c   | m1  | n1  |
 | --- | --- | --- | --- | --- | --- |
 | 0   | 20  | 21  | 29  | 5   | 2   |
 | 1   | 54  | 72  | 90  | 9   | 3   |
