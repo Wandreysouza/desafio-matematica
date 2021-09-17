@@ -28,4 +28,3 @@ if __name__ == '__main__':
     print('=' * 25 + '\n\n')
 
     [run_tests(func, name=func.__name__) for func in funcs]
-    
