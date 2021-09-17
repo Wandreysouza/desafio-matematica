@@ -1,11 +1,15 @@
-# [Problema](https://exercism.org/tracks/python/exercises/pythagorean-triplet)
+# Problema
 
-O exercício proposto pede uma solução em que se ache todos os tripleto pitagórico {a, b, c} que seguem a regra: `a + b + c = N`. Neste trabalho irei apresentar formas de resolver este problemas e explicar alguns conceitos computacionais que explicam a importância de uma função quadrática para resolve-lo.
+O exercício proposto pede uma solução em que se ache todos os tripleto pitagórico {a, b, c} que seguem a regra: `a + b + c = N`. Neste trabalho irei apresentar formas de resolver este problemas e explicar alguns conceitos computacionais que explicam a importância de uma função para resolve-lo.
 
-### Problema proposto(tradução)
+### [Problema Proposto](https://exercism.org/tracks/python/exercises/pythagorean-triplet)
 
 > Um tripleto pitágorico é um conjunto de três números naturais {a, b, c} em que: `a**2 + b**2 = c**2`, tal qual `a < b < c`. Por exemplo: `3^2 + 4^2 = 9 + 16 = 25 = 5^2`
 > Dado um número N, encontre todos os tripletos que seguem a seguinte lei: `a + b + c = N`. Por exemplo, com N = 1000, há exatamente um terno pitagórico que satisfaça tal lei: `a + b + c = 1000`: `{200, 375, 425}`
+
+# Objetivo
+
+Aplicar conceitos de **função** junto das definições de pitágoras para achar **ternos pitagóricos** que tem como perímetro um valor _N_. Para este problema há várias formas de resolvê-lo com outras definições, porém elas não são tão eficiente para grandes valores em _N_, portanto as **funções** irão desempenhar um papel importante para a melhoria de perfomance deste algorítmo.
 
 # Definições
 
@@ -14,8 +18,6 @@ O exercício proposto pede uma solução em que se ache todos os tripleto pitag�
 Em matemática, nomeadamente em [teoria dos números](https://pt.wikipedia.org/wiki/Teoria_dos_n%C3%BAmeros), um **terno pitagórico** é formado por três números naturais _a_, _b_ e _c_ tais que *a*²+*b*²=*c*². O nome vem do teorema de Pitágoras que afirma que se as medidas dos lados de um triângulo rectângulo são números inteiros, então são um terno pitagórico. Se (_a_,_b_,_c_) é um terno pitagórico, então (_ka_,_kb_,_kc_) também é um terno pitagórico, para qualquer número natural k. Um **terno pitagórico primitivo** é um terno pitagórico em que os três números são primos entre si. Os primeiros ternos pitagóricos primitivos são (3, 4, 5), (5, 12, 13), (7, 24, 25), (8, 15, 17), (9, 40, 41), (11, 60, 61), (12, 35, 37), (13, 84, 85), (16, 63, 65), (20, 21, 29)...
 
 Os ternos pitagóricos apareceram em problemas na Matemática Babilônia na tabela [Plimpton 322](https://pt.wikipedia.org/wiki/Plimpton_322), escrita no Século XVIII a.C. e, posteriormente, foram estudadas no período grego pelos pitagóricos e por Platão e aparecem de forma explícita na obra de Euclides e nos estudos de Diofanto. Também foi estudada por alguns matemáticos islâmicos e, nesse caso, estavam relacionadas com o Problema dos Números Congruentes, um antigo problema que remonta à época do matemático italiano Leonardo Fibonacci.
-
-O Teorema de Pitágoras (e, portanto, os ternos pitagóricos) é a mais bela jóia da tradição pitagórica. Como lembrança inesquecível da época escolar, ele pertence à base cultural comum da humanidade. O seu estudo introduziu uma radical inflexão intelectual entre a prática empírica e indutiva e a argumentação lógico-dedutiva, tanto no aspecto histórico cultural matemático como no âmbito escolar.
 
 ### Algumas regras de definição
 
@@ -28,7 +30,7 @@ O primeiro terno pitagórico é formado pelos números 3, 4 e 5. Estes desempenh
 ### [Formulas para gerar ternos pitagóricos](https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples)
 
 Há várias formas de se gerar tripletos pitagóricos, tais quais: fórmula de Euclides, metódo fibonacci, progressões de números inteiros e fracionados, método de dickson, através de equações quadráticas, matrizes e transformações lineares, entre outros.
-Para este problema em específico usaremos a própria definição de pitágoras(`a² + b² = c²`) e a fórmula fornecida pelo problema(`a + b + c = N`), o que nos levará à uma função quadrática.
+Para este problema em específico usaremos a própria definição de pitágoras(`a² + b² = c²`) e a fórmula fornecida pelo problema(`a + b + c = N`), o que nos levará à uma função.
 
 #### Fórmula de Euclides
 
@@ -101,20 +103,6 @@ Este algoritmo irá forçadamente encontrar o valor dos triplos pitagóricos atr
 ```python
 def is_triplet(a, b, c): ...
 def terno_pitagorico_com_soma(perimetro):
-    """este método usará um algoritmo em tempo O(n³) para resolver o problema proposto.
-
-    :param perimetro: int valor da soma dos lados de um triângulo.
-    :return: list[list] lista com todos os ternos pitagórico que tem como soma o perimetro designado.
-
-    >>> terno_pitagorico_com_soma(1000)
-    [[200, 375, 425]]
-    >>> terno_pitagorico_com_soma(90)
-    [[9, 40, 41], [15, 36, 39]]
-    >>> terno_pitagorico_com_soma(100)
-    []
-    """
-
-    res = []
     return [[a, b, c] # tempo: O(1)
             for c in range(1, perimetro) # tempo: O(f(n)) = O(n)
             for b in range(1, c) # tempo: O(f(n) * g(n)) = O(n²)
@@ -132,19 +120,6 @@ Este algoritmo irá forçadamente encontrar o valor dos triplos pitagóricos atr
 ```python
 def is_triplet(a, b, c): ...
 def terno_pitagorico_com_soma(N):
-    """este método usará um algoritmo em tempo O(n²) com algumas melhorias no algoritmo para resolver
-    o problema proposto.
-
-    :param N: int valor da soma dos lados de um triângulo, também conhecido como perímetro.
-    :return: list[list] lista com todos os ternos pitagórico que tem como perímetro valor N
-
-    >>> terno_pitagorico_com_soma(1000)
-    [[200, 375, 425]]
-    >>> terno_pitagorico_com_soma(90)
-    [[9, 40, 41], [15, 36, 39]]
-    >>> terno_pitagorico_com_soma(100)
-    []
-    """
     return [[a, b, c] # tempo: O(1)
             for c in range(5, perimetro//2) # tempo: O(f(n)) = O(n)
             for b in range(4, c) # tempo: O(f(n) * g(n)) = O(n²)
@@ -160,7 +135,7 @@ Este será um algoritmo em tempo quadrático pois _T(n) = n² + n + 1_. Este alg
 
 ## Algoritmo em Tempo Linear
 
-Este por sua vez é o algoritmo final em que aplicaremos uma função quadrática que nos dará um resultado mais rápido e que terá uma perfomance significativa para números grandes.
+Este por sua vez é o algoritmo final em que aplicaremos uma função que nos dará um resultado mais rápido e que terá uma perfomance significativa para números grandes.
 Primeiramente devemos definir fórmulas para valores de _a_, _b_ e regras para o valor de _c_.
 
 Aplicaremos as seguintes fórmulas:
@@ -190,13 +165,15 @@ Tendo os valores para o lado A e B, achar o valor do lado C será fácil, basta 
 Com os valores definidos vamos ao algoritmo que irá desempenhar um **tempo linear _O(n)_**
 
 ```python
-def calcula_b(a, N): return (N**2 + 2*a*N) / (2*n - 2*a)
-def calcula_c(a, b, N): return N - a - b
+def calcula_tripleto(a):
+    b = (N ** 2 - 2*N*a) // (2*N - 2*a)
+    c = N - a - b
 
-def terno_pitagorico_com_soma(perimetro):
-    return [[a, b, c]
-            for a in range(int(sqrt(N)), N//3)
-            if is_triplet(a, b := calcula_b(a, perimetro), c := calcula_c(a, b, perimetro))]
+    return [a, b, c] if is_triplet(a, b, c) else None
+
+return [tripleto
+        for a in range(int(sqrt(N)), N//3)
+        if (tripleto := calcula_tripleto(a))]
 ```
 
 ## Resultados para os testes
@@ -210,12 +187,12 @@ Rótulos:
 
 | _n_   | t(n)     | Qtd. de Laços |
 | ----- | -------- | ------------- |
-| 12    | 0,000    | 220           |
-| 90    | 0,102    | 117.480       |
-| 108   | 0,206    | 204.156       |
-| 840   | 92,738   | 98.431.480    |
-| 1000  | 157,741  | 166.167.000   |
-| 1001  | 161,428  | 166.666.500   |
+| 12    | 0,000    | 1             |
+| 90    | 0,102    | 11.480        |
+| 108   | 0,206    | 20.825        |
+| 840   | 92,738   | 11.998.480    |
+| 1000  | 157,741  | 20.337.240    |
+| 1001  | 161,428  | 20.337.240    |
 | 30000 | _indef._ | _indef._      |
 
 ### Tempo Quadrático
@@ -224,7 +201,7 @@ Rótulos:
 | ----- | ------- | ------------- |
 | 12    | 0,000   | 1             |
 | 90    | 0,001   | 820           |
-| 108   | 0,002   | 108           |
+| 108   | 0,002   | 1.225         |
 | 840   | 0,093   | 86.320        |
 | 1000  | 0,128   | 122.760       |
 | 1001  | 0,128   | 122.760       |
@@ -243,5 +220,5 @@ Rótulos:
 | 30000 | 0,018 | 9827          |
 
 # Referencias
- 
+
 > Todos os links utilizados para desenvolver este projeto estão hyperlinkados à este texto.
