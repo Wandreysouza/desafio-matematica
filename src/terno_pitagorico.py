@@ -40,10 +40,10 @@ def tempo_cubico(N: int) -> list[list[int]]:
     if N > 500:
         raise ValueError(
             'Valor fora dos limites calculáveis para esta função.')
-    return [[a, b, c]  # tempo: O(1)
-            for c in range(1, N//2)  # tempo: O(f(n)) = O(n)
-            for b in range(1, c)  # tempo: O(f(n) * g(n)) = O(n²)
-            for a in range(1, b)  # tempo: O(f(n) * g(n) * h(n)) = O(n³)
+    return [[a, b, c]
+            for c in range(5, N//2)
+            for b in range(4, c)
+            for a in range(3, b)
             if is_triplet(a, b, c)
             and a + b + c == N]
 
