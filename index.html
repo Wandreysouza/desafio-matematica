@@ -1,5 +1,550 @@
 <!DOCTYPE html>
+<html>
+
 <head>
-  <meta charset="utf-8" />
-  <title>Desafio de Matemática</title>
+    <meta charset="utf-8" />
+    <title>Desafio Matemática</title>
 </head>
+
+<body>
+    <div>
+        <h1>Introdução</h1>
+        <p>
+            Este projeto tem como objetivo a aplicação de funções e conceitos matemáticos para atingir uma solução para o
+            <a href="https://exercism.org/tracks/python/exercises/pythagorean-triplet">problema proposto</a
+        >
+        de modo que esta solução apresentará uma perfomance significativamente
+        melhor que a forma convencional de resolvê-lo.
+      </p>
+      <h2>Problema</h2>
+      <p>
+        O exercício proposto pede uma solução em que se ache todos os ternos
+        pitagóricos <i>a, b, c</i> que terão como perímetro um valor
+        <i>N</i> como parâmetro. Neste projeto serão apresentado formas de
+        resolver o problema e os conceitos computacionais que conceituam-os,
+        assim enfatizando a importância do uso de funções e conceitos
+        matemáticos para este exercício
+      </p>
+      <blockquote>
+        Um tripleto pitágorico é um conjunto de três números naturais {<i
+          >a, b, c</i
+        >} em que:
+        <img src="estilos/imagens/teorema_de_pitagoras.png" width="80" />, tal
+        qual
+        <img src="estilos/imagens/regra_terno_pitagorico.png" width="70" />. Por
+        exemplo:
+        <img src="estilos/imagens/exemplo_terno_pitagorico.png" width="160" />
+        Dado um número <i>N</i>, encontre todos os tripletos que tem como
+        perímetro igual a <i>N</i>. Por exemplo, com <i>N = 1000</i>, há
+        exatamente um terno pitagórico que satisfaça tal lei:
+        <img
+          src="estilos/imagens/exemplo_perimetro_igual_1000.png"
+          width="110"
+        />: <i>200, 375, 425</i>
+      </blockquote>
+    </div>
+    <div>
+      <h1>Definições</h1>
+      <p>
+        Para uma melhor contextualização deste trabalho, precisamos definir
+        alguns termos e algumas leis que serão aplicadas aqui. Portanto iremos
+        abordar algumas definições de
+        <a href="https://pt.wikipedia.org/wiki/Terno_pitag%C3%B3rico"
+          >ternos pitagóricos</a
+        >
+        e
+        <a
+          href="https://pt.wikipedia.org/wiki/Complexidade_de_tempo#:~:text=Em%20ci%C3%AAncia%20da%20computa%C3%A7%C3%A3o%2C%20a,tamanho%20da%20entrada%20do%20problema.&text=A%20quantidade%20de%20tempo%20tomada,m%C3%A1ximo%20de%20um%20fator%20constante."
+          >complexidade de tempo de algoritmo</a
+        >.
+      </p>
+      <h2>Terno Pitagórico</h2>
+      <p>
+        Em matemática, mais especificadaente em teoria dos números, um terno
+        pitagórico é formado por três números naturais <i>a, b, c</i> tais que
+        <img src="estilos/imagens/teorema_de_pitagoras.png" width="80" />. O
+        nome se deriva do teorema de Pitágoras que define que se as medidas dos
+        lados de um triângulo retângulo são inteiros, então eles serão um terno
+        pitagórico. Se (a, b, c) é um terno, então (<i>k</i>a, <i>k</i>b,
+        <i>k</i>c) também será, para qualquer número natural <i>k</i>. Um terno
+        pitagórico será primitivo quando os três números são primos entre si. Os
+        primeiros ternos pitagóricos são:
+      </p>
+      <blockquote>
+        (3, 4, 5), (5, 12, 13), (7, 24, 25), (8, 15, 17), (9, 40, 41), (11, 60,
+        61), (12, 35, 37), (13, 84, 85), (16, 63, 65), (20, 21, 29)...
+      </blockquote>
+      <i
+        >o terno (3, 4, 5) desempenharão um papel importante para a definição de
+        outros ternos e também no algoritmo desenvolvido neste projeto.</i
+      >
+      <h3>Regras de Definição</h3>
+      <p>
+        Sendo o primeiro terno pitagórico formado pelos números 3, 4, 5. Pode-se
+        provar pela definição ou pela <i>fórmula de Euclides</i>, que num termo
+        pitágorico primitivo:
+      </p>
+      <ul>
+        <li>exatamente um dos números <i>a</i> ou <i>b</i> é múltiplo de 3</li>
+      </ul>
+      <ul>
+        <li>exatamente um dos números <i>a</i> ou <i>b</i> é múltiplo de 4</li>
+      </ul>
+      <ul>
+        <li>
+          exatamente um dos números <i>a</i> ou <i>b</i> ou <i>c</i> é múltiplo
+          de 5
+        </li>
+      </ul>
+      <h3>Fórmulas para Gerar Tripletos</h3>
+      <p>
+        Há várias formas de se gerar tripletos, sendo eles a própria fórmula de
+        Euclides, métodos derivados de fibonacci, progressões de números
+        inteiros e fracionados, método de Dickson, através de equações
+        quadráticas, matrizes e transformações lineares, entre outras formas.
+        Para este problema em específico usaremos a própria definição de
+        pitágoras e a fórmula do perímetro do triângulo, o que nos levará à uma
+        função.
+      </p>
+      <h4>Fórmula de Euclides</h4>
+      <p>
+        Euclides em seu livro <i>Elementos</i> comprovou que há infinitos ternos
+        pitagóricos primitivos. E além disso, conseguiu definir fórmulas que
+        geram um <i>terno pitagórico primitivo</i>.
+      </p>
+      <p>
+        Dado dois números naturais <i>m > n</i>, o terno (<i>a, b, c</i>) onde:
+      </p>
+      <ul>
+        <li>
+          <img src="estilos/imagens/formula_euclides_lado_a.png" width="90" />
+        </li>
+        <li>
+          <img src="estilos/imagens/formula_euclides_lado_b.png" width="60" />
+        </li>
+        <li>
+          <img src="estilos/imagens/formula_euclides_lado_c.png" width="90" />
+        </li>
+      </ul>
+      <blockquote>
+        <i
+          >Este termo será primitivo, se e somente se, m e n forem primos entre
+          si. Ou seja: mdc(m, n) = 1</i
+        >
+      </blockquote>
+      <h4>Função Quadrática</h4>
+      <p>
+        Acrescentando abirtráriamente uma varíavel <i>x</i> para <i>m</i> e
+        <i>n</i> de forma em que o par (m, n) serão uma constante, enquanto o
+        valor da função variará em função de x, criarão-se então termos
+        "descendentes" do par <i>f(0)</i> de m e n. Desta forma serão "pulados"
+        os termos e obteremos apenas aqueles que são descendentes. Exemplo:
+      </p>
+      <p>
+        Com m = 5 e n= 2, façamos que m1 = 4x + m, e n1 = x + n. Em seguida
+        substituindo na fórmula original teremos:
+      </p>
+      <ul>
+        <li>
+          <img
+            src="estilos/imagens/formula_euclides_quadratica_lado_a.png"
+            height="20"
+          />
+        </li>
+        <li>
+          <img
+            src="estilos/imagens/formula_euclides_quadratica_lado_b.png"
+            height="20"
+          />
+        </li>
+        <li>
+          <img
+            src="estilos/imagens/formula_euclides_quadratica_lado_c.png"
+            height="20"
+          />
+        </li>
+      </ul>
+      <p>Por fim teremos a relação para <i>f(x)</i></p>
+      <table>
+        <thead>
+          <tr>
+            <th>x</th>
+            <th>a</th>
+            <th>b</th>
+            <th>c</th>
+            <th>m</th>
+            <th>n</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>20</td>
+            <td>21</td>
+            <td>29</td>
+            <td>5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>54</td>
+            <td>72</td>
+            <td>90</td>
+            <td>9</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>104</td>
+            <td>153</td>
+            <td>185</td>
+            <td>13</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>170</td>
+            <td>264</td>
+            <td>314</td>
+            <td>17</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>252</td>
+            <td>405</td>
+            <td>477</td>
+            <td>21</td>
+            <td>6</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Complexidade de Tempo(Algorítmo)</h2>
+      <p>
+        Na ciência da computação, a complexidade de tempo quantifica a porção de
+        tempo tomada por um algoritmo para rodar em função da entrada do
+        problema. A complexidade de tempo é comumente expressada usando a
+        notação <i>big O</i>, que suprime constantes multiplicativas e outros
+        termos de menor ordem. A quantidade de tempo tomada e o número de
+        operações elementares realizadas pelo algoritmo diferem no máximo de um
+        fator constante.
+      </p>
+      <h3>Tipos</h3>
+      <ul>
+        <li>tempo constante: <i>O(1)</i></li>
+        <li>tempo log-logarítmico: <i>O(log log n)</i></li>
+        <li>tempo logarítmico: <i>O(log n)</i></li>
+        <li>tempo linear: <i>O(n)</i></li>
+        <li>tempo quadrático: <i>O(n²)</i></li>
+        <li>tempo cúbico: <i>O(n³)</i></li>
+      </ul>
+
+      <h3>Tempo Linear</h3>
+      <p>
+        Um algoritmo é classificado como <b>tempo linear</b> quando o tempo de
+        execução aumenta de forma linear de acordo com o tamanho da entrada. Por
+        exemplo um procedimento que adiciona todos os elementos em uma lista
+        requere tempo proporcional ao tamanho da lista. Este tipo de tempo é
+        comumente visto como um atributo desejável para um algoritmo.
+      </p>
+      <h3>Tempo Polinomial</h3>
+      <p>
+        Um algoritmo é dito como <b>tempo polinomial</b> se o tempo de execução
+        dele é limitado superiormente por uma expressão polinomial do tamanho da
+        entrada para o algoritmo,
+        <img src="estilos/imagens/tempo_polinomial.png" height="25" /> para
+        algumas constantes <i>k</i>. Alguns exemplos de algoritmos em tempo
+        polinomial são:
+      </p>
+      <ul>
+        <li>
+          O algoritmo de ordenação quicksort em n inteiros executa, no máximo,
+          An² operações para algumas constantes A. Assim, é executado em tempo O
+          (n2) e é um algoritmo de tempo polinomial.
+        </li>
+        <li>
+          Todas as operações aritméticas básicas (adição, subtração,
+          multiplicação, divisão e comparação) pode ser feito em tempo
+          polinomial.
+        </li>
+        <li>
+          Emparelhamento máximo em grafos podem ser encontrados em tempo
+          polinomial.
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h1>Solução</h1>
+      <p>
+        Definindo as regras gerais para um terno pitagórico, teremos a seguinte
+        função:
+      </p>
+      <p><img src="estilos/imagens/funcao_is_triplet.jpg" /></p>
+      <p>
+        Em seguida teremos diferentes algoritmos que darão mesmo resultados,
+        porém em tempos de complexidade diferentes.
+      </p>
+      <h2>Algoritmo em Tempo Cúbico</h2>
+      <p>
+        Este algoritmo é uma forma "fácil", porém nada eficiente e feita de uma
+        forma totalmente bruta, que achará os termos que seguem a regra dos
+        ternos pitagóricos, porém este irá ser computado dentro de 3(três) laços
+        <i>for</i>.
+      </p>
+      <p><img src="estilos/imagens/funcao_cubica.jpg" /></p>
+      <p>
+        Este algoritmo será em tempo cúbico pois:
+        <img src="estilos/imagens/tempo_cubico.png" height="20" />
+      </p>
+      <h2>Algoritmo em Tempo Quadrático</h2>
+      <p>
+        Este algoritmo irá também encontrar os valores de forma forçada, porém
+        tem uma melhoria de que este não irá iterar uma terceira vez, mas irá
+        aplicar uma fórmula para encontrar o lado a, para chegar à esta fórmula
+        basta isolar o valor de <i>a</i> na fórmula do perimetro
+      </p>
+      <h2>Algoritmo em Tempo Quadrático</h2>
+      <p>
+        Este algoritmo irá também encontrar os valores de forma forçada, porém
+        tem uma melhoria de que este não irá iterar uma terceira vez, mas irá
+        aplicar uma fórmula para encontrar o lado a, para chegar à esta fórmula
+        basta isolar o valor de <i>a</i> na fórmula do perimetro
+      </p>
+      <p><img src="estilos/imagens/funcao_quadratica.jpg" /></p>
+      <p>
+        Este será um algoritmo em tempo quadrático pois:
+        <img src="estilos/imagens/tempo_quadratico.png" height="20" />
+      </p>
+      <p>Há algumas melhorias em perfomance neste algoritmo, sendo eles:</p>
+      <ul>
+        <li>
+          Ele irá iterar até a metade do valor do perímetro, sendo <i>c</i> a
+          maior parte do triangulo, para que este seja divido em três partes, o
+          valor de <i>c</i> não poderá ser superior à metade do perímetro
+        </li>
+        <li>
+          Os valores começarão a iterar a partir do primeiro terno pitagórico,
+          isso irá salvar alguns laços desnecessários no nosso programa.
+        </li>
+        <li>
+          Não precisaremos iterar uma terceira vez para achar o valor de
+          <i>a</i>, já que teremos uma fórmula que irá defini-lo:
+          <i>a = N - b - c</i>
+        </li>
+      </ul>
+      <h2>Algoritmo em Tempo Linear</h2>
+      <p>
+        Este algoritmo é uma das formas mais eficientes de se resolver este
+        problema, nele aplicaremos uma função que irá definir o resultado de
+        forma mais eficiente, aumentando assim a perfomance significativamente
+        para números grandes. Primeiramente, iremos definir fórmulas para os
+        lados <i>b</i> e <i>c</i> e por fim definiremos um conjunto solução para
+        o valor de <i>a</i>
+      </p>
+      <p>
+        Iremos então definir nossas fórmulas e regras a partir das seguintes
+        fórmulas
+      </p>
+      <ul>
+        <li>
+          <img src="estilos/imagens/teorema_de_pitagoras.png" height="20" />
+        </li>
+        <li>
+          <img src="estilos/imagens/formula_perimetro.png" height="17" />. Sendo
+          <i>a, b, c</i> pertencentes ao conjunto dos inteiros positivos e
+          diferente de zero.
+        </li>
+      </ul>
+      <h3>Lado A</h3>
+      <p>
+        Já que <i>a</i> é a menor parte do triângulo, este deverá ser menor que
+        a terça parte de <i>N</i>, para assim, então termo 3 valores diferentes
+        para os lados de forma que o perimetro seja igual a <i>N</i>. O valor
+        mínimo de <i>a</i> deverá ser menor ou igual à raiz quadrada de
+        <i>N</i>(essa regra não há uma teoria por trás de como chegar nela,
+        porém se mostra aplicável no algoritmo). Portanto o conjunto solução de
+        <i>a</i> será:
+      </p>
+      <li>
+        <img src="estilos/imagens/conjunto_solucao_lado_a.png" height="50" />
+      </li>
+      <h3>Lado B e C</h3>
+      <p>
+        Para encontrar a fórmula que definirá o lado B, desenvolveremos as
+        fórmulas da seguinte forma:
+      </p>
+      <ul>
+        <li>
+          <img src="estilos/imagens/lado_b_pt1.png" height="15" />, isolando o
+          valor de <i>c</i> na fórmula do perimetro
+        </li>
+        <li>
+          <img src="estilos/imagens/lado_b_pt2.png" height="25" />, substituindo
+          o valor de <i>c</i> no teorema de Pitágoras
+        </li>
+        <li>
+          <img src="estilos/imagens/lado_b_pt3.png" height="25" />, aplicando a
+          substitutiva e simplificando
+        </li>
+        <li>
+          <img src="estilos/imagens/lado_b_pt4.png" height="60" />, isolando o
+          valor de b, e simplificando a fórmula
+        </li>
+      </ul>
+      <h3>Conclusão</h3>
+      <p>
+        Com as fórmulas prontas podemos desenvolver então o nosso produto final.
+        Este programa por sua vez irá ser em <b>tempo linear</b> visto que
+        teremos apenas um laço <i>for</i> que será baseado no conjunto solução
+        do lado <i>a</i>. Este algoritmo será escrito desta forma:
+      </p>
+      <p><img src="estilos/imagens/funcao_linear.jpg" /></p>
+    </div>
+    <h2>Comparativos</h2>
+    <h3>Tempo Cúbico</h3>
+    <table>
+      <thead>
+        <tr>
+          <th><i>n</i></th>
+          <th>tempo</th>
+          <th>qtd. de laços</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12</td>
+          <td>0,000</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>90</td>
+          <td>0,102</td>
+          <td>11.480</td>
+        </tr>
+        <tr>
+          <td>108</td>
+          <td>0,206</td>
+          <td>20.825</td>
+        </tr>
+        <tr>
+          <td>840</td>
+          <td>92,738</td>
+          <td>11.998.480</td>
+        </tr>
+        <tr>
+          <td>1000</td>
+          <td>157,741</td>
+          <td>20.337.240</td>
+        </tr>
+        <tr>
+          <td>1001</td>
+          <td>161,428</td>
+          <td>20.337.240</td>
+        </tr>
+        <tr>
+          <td>30000</td>
+          <td><i>indef.</i></td>
+          <td><i>indef.</i></td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Tempo Quadrático</h3>
+    <table>
+      <thead>
+        <tr>
+          <th><i>n</i></th>
+          <th>tempo</th>
+          <th>qtd. de laços</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12</td>
+          <td>0,000</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>90</td>
+          <td>0,001</td>
+          <td>820</td>
+        </tr>
+        <tr>
+          <td>108</td>
+          <td>0,002</td>
+          <td>1.225</td>
+        </tr>
+        <tr>
+          <td>840</td>
+          <td>0,093</td>
+          <td>122.760</td>
+        </tr>
+        <tr>
+          <td>1000</td>
+          <td>0.128</td>
+          <td>122.760</td>
+        </tr>
+        <tr>
+          <td>1001</td>
+          <td>0.128</td>
+          <td>122.760</td>
+        </tr>
+        <tr>
+          <td>30000</td>
+          <td>131,955</td>
+          <td>112.432.510</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Tempo Linear</h3>
+    <table>
+      <thead>
+        <tr>
+          <th><i>n</i></th>
+          <th>tempo</th>
+          <th>qtd. de laços</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12</td>
+          <td>0,000</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>90</td>
+          <td>0,000</td>
+          <td>21</td>
+        </tr>
+        <tr>
+          <td>108</td>
+          <td>0,000</td>
+          <td>26</td>
+        </tr>
+        <tr>
+          <td>840</td>
+          <td>0,000</td>
+          <td>252</td>
+        </tr>
+        <tr>
+          <td>1000</td>
+          <td>0,000</td>
+          <td>302</td>
+        </tr>
+        <tr>
+          <td>1001</td>
+          <td>0,000</td>
+          <td>302</td>
+        </tr>
+        <tr>
+          <td>30000</td>
+          <td>0,018</td>
+          <td>9827</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <i>n:</i> valor de entrada na função<br /><i>t(n):</i> tempo de execução
+      da função
+    </p>
+  </body>
+</html>
